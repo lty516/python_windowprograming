@@ -53,8 +53,7 @@ class MyFrame2(wx.Frame):
         self.m_panel2 = wx.Panel(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         bSizer3 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_listCtrl1 = wx.ListCtrl(self.m_panel2, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize,
-                                       wx.LC_ICON | wx.LC_REPORT)
+        self.m_listCtrl1 = wx.ListCtrl(self.m_panel2, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LC_REPORT)
         bSizer3.Add(self.m_listCtrl1, 0, wx.ALL | wx.EXPAND, 5)
 
         self.m_panel2.SetSizer(bSizer3)
@@ -81,7 +80,26 @@ class MyFrame2(wx.Frame):
         self.SetSizer(bSizer1)
         self.Layout()
 
+        self.m_listCtrl1.InsertColumn(0, "거래처 이름", width=200)
+        self.m_listCtrl1.InsertColumn(1, "전화 번호", width=200)
+
+        self.m_btnInsert.Bind(wx.EVT_BUTTON, self.onInsert)
+
         self.Centre(wx.BOTH)
+
+    def onInsert(self, e):
+        name = self.m_txtName.GetValue()
+        tel = self.m_txtTel.GetValue()
+
+        i = self.m_listCtrl1.InsertItem(1000, 0)  # 1000개의 레코드 값을 보여주면서 0부터 시작
+        self.m_listCtrl1.SetItem(i, 0, name)
+        self.m_listCtrl1.SetItem(i, 1, tel)
+
+        self.m_staCount.SetLabelText(str(self.m_listCtrl1.GetItemCount()))
+
+        self.m_txtName.SetValue("")
+        self.m_txtTel.SetValue("")
+        self.m_txtName.SetFocus()
 
     def __del__(self):
         pass
